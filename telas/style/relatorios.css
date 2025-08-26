@@ -1,0 +1,14 @@
+.relatorio {
+    background-color: #f9f9f9;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .relatorio-item {
+    margin-bottom: 15px;
+  }
+  
+  #lista-tarefas-finalizadas li {
+    margin-left: 20px;
+  }
+  

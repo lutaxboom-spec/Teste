@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font: inherit;
+
+}
+
+:root {
+    --main-font: "Righteous", sans-serif;
+    --main-text-color: #4A0E3D;
+    --main-text-color2:#7c3a66;
+    --main-bg-color: #FFD6F3;
+    --main-card-bg-color: #ffb8ea9a;
+    --main-card-bg-color2: #773968;
+    --active-icon: rgba(255, 76, 76, 0.15);;
+    --background-description: #B788AD;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: var(--main-font);
+    scroll-behavior: smooth;
+}
+
+body {
+    max-width: 100%;
+    width: 60em;
+    height: 100vh;
+    min-height: 100vh;
+    margin: auto;
+    position: relative;
+    background-color: var(--main-card-bg-color2);
+}
+
+img, picture {
+    max-width: 100%;
+    display: block;
+}
+
+h1, span, p {
+    font-size: 3em;
+}
+
+aside#history {
+    position: absolute;
+    top: 6em;
+    width: max-content;
+}
+
+aside#history a {
+    display: block;
+    padding: .3em;
+    padding-right: .6em;
+    border-radius: 0 1em 1em 0;
+    background-color: #FFF;
+    box-shadow: 3px 3px 6.8px 1px rgba(0, 0, 0, 0.07);
+}
+
+aside#history img {
+    width: 5em;
+}
+
+#listOpenBtn {
+    position: absolute;
+    bottom: 7em;
+    margin-left: calc(600px - 12em);
+}
+
+#listOpenBtn img {
+    width: 6em;
+}
+
+main {
+    color: var(--main-text-color);
+    background-color: var(--main-bg-color);
+    height: calc(100% - 70px);
+    /* padding: 0 2em; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;  
+    width: 100%;
+    max-width: 60em;
+}
+
+main::-webkit-scrollbar {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+footer {
+    padding: 1.5em 0;
+    background-color: #fff;
+}
+
+footer nav {
+    width: 60em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+footer nav a {
+    width: 4em;
+    height: 4em;
+    border-bottom: 1.7px solid transparent;
+    transition: all 0.2s ease-in;
+    position: relative;
+}
+
+footer nav a:before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    border-radius: 30%;
+    height: 1.7px;
+    background-color: transparent;
+    bottom: -.8em;
+    transition: all 0.2s ease-in;
+}
+
+footer nav a:hover::before {
+    background-color: #000;
+}
+
+footer nav .active {
+    filter: brightness(0.7);
+}

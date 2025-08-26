@@ -1,0 +1,368 @@
+main {
+  overflow-y: scroll;
+
+}
+
+main>h1 {
+  text-align: center;
+  margin-top: -1em;
+}
+
+main p {
+  max-width: 18em;
+  width: 100%;
+}
+
+main p:focus-visible {
+  outline: none;
+  background-color: #fbe4f5;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
+aside#history {
+  position: sticky;
+}
+
+aside#categories {
+  position: sticky;
+  top: 3.5em;
+  left: 100%;
+  width: 11em;
+  padding: 0.3em 1.5em;
+  background-color: #fff;
+  box-shadow: 3px 3px 6.8px 1px rgba(0, 0, 0, 0.07);
+  border-radius: .7em 0 0 .7em;
+  font-size: 1.9em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+}
+
+#categories button {
+  font-size: .8em;
+  padding: 0.4em 1em;
+  border-radius: 3em;
+  background-color: var(--active-icon);
+  border: 2px solid #471515;
+  box-shadow: 3px 3px 6.8px 1px rgba(0, 0, 0, 0.07);
+}
+
+#categories button#addCategoryBtn {
+  padding: .5em;
+  width: 1.8em;
+  height: 1.8em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--background-description);
+  color: #fff;
+}
+
+#categories button:hover {
+  background-color: #471515;
+  color: #fff;
+}
+
+.taskList {
+  max-width: 55em;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5em;
+  justify-content: space-around;
+  margin: 2em;
+}
+
+.taskList .tarefas {
+  transition: all 1s;
+  max-height: 400px;
+}
+
+.taskList .tarefas.pre-animation {
+  opacity: 0;
+  max-height: 0;
+}
+
+.taskList article {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  gap: 8px;
+  background-color: var(--main-card-bg-color);
+  box-shadow: 0px 4px 8.2px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.taskList .checkbox {
+  width: 30%;
+  max-height: 8em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.taskList input[type="checkbox"] {
+  opacity: 0;
+  width: 4em;
+  height: 4em;
+  position: absolute;
+}
+
+/*  */
+
+@keyframes fadeOutOpacityHeight {
+  0% {
+    opacity: 1;
+    max-height: 300px; /* Altura aproximada da tarefa */
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.fade-out {
+  animation: fadeOutOpacityHeight 0.5s forwards;
+  overflow: hidden;
+}
+
+#addTask {
+  position: fixed;
+  width: 7.5em;
+  bottom: 12.5em;
+  right: 35vw;
+}
+
+/* Caixa personalizada */
+.custom-checkbox {
+  display: block;
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid #7c3a66;
+  border-radius: .5em;
+  background-color: transparent;
+  transition: background-color 0.2s;
+}
+
+/* Check marcado */
+input[type="checkbox"]:checked+.custom-checkbox {
+  background-color: var(--background-description);
+}
+
+
+.taskList .taskInfo {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.taskList input[type="text"], textarea:focus-visible, textarea {
+  resize: none;
+  overflow: hidden;
+  display: flex;
+  font-size: 1.5em;
+  background-color: transparent;
+  outline: none;
+  min-height: 20px;
+  height: 20px;
+}
+
+.taskInfo input[type="text"]::placeholder, .taskInfo input {
+  color: var(--main-text-color);
+  flex: 1;
+}
+
+.taskList input[type="text"].taskTitle {
+  padding-right: 1em;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  font-size: 2em;
+  color: var(--main-text-color);
+  height: 80px;
+}
+
+.taskDesc textarea::placeholder {
+  color: var(--active-icon);
+}
+
+.taskDesc textarea {  
+  color: var(--main-text-color2);
+  padding-right: 2.6em;
+}
+
+.taskDesc {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Esconde o input original */
+.file-input {
+  display: none;
+}
+
+/* Estilo da imagem que será usada como botão */
+.custom-file-label {
+  cursor: pointer;
+}
+
+.custom-file-label img {
+  width: 40px;
+  height: 40px;
+}
+
+.upload-container label, .upload-container button {
+  height: 4em;
+  width: 4em;
+}
+
+.taskImages>img {
+  display: inline-block;
+  width: 20em;
+  padding: 1em;
+  /* max-width: 20em; */
+}
+
+/* Elemento pop up para limitar imagens */
+.popup-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform:  translateY(-50%) translateX(-50%);
+  background-color: #ff4d4d;
+  color: white;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fadeInOut 3s ease-in-out;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+}
+
+.subtarefas-container {
+  width: 400px;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: grab;
+}
+
+.addSubTask {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  font-size: .5em;
+}
+
+.addSubTask img {
+  width: 10em;
+}
+
+.addSubTask span {
+  padding-top: 1.1em;
+}
+
+.subtarefa {
+  background-color: #fcaee8;
+  padding: 10px 15px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Adiciona animação às subtarefas */
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subtarefa.animada {
+  animation: fadeInSlideUp 0.3s ease-out;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #7c3a66;
+  border-radius: 50%;
+}
+
+.subtarefa .adjustTextArea {
+  color: #7c3a66;
+  font-size: 1.5em;
+  outline: none;
+  width: 100%;
+  padding: 2px 5px;
+  cursor: grab;
+  /* tira o contorno ao editar */
+}
+
+.adjustTextArea:focus {
+  cursor: text;
+}
+
+.drag-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.drag-icon:hover {
+  cursor: grab;
+}

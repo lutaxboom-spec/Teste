@@ -1,0 +1,68 @@
+button {
+    width: 6em;
+}
+
+#randomBtn, #repeatBtn {
+    width: 3em;
+}
+
+#pauseBtn {
+    width: 10em;
+}
+
+
+#musicBanner {
+    width: 60%;
+    margin: auto;
+}
+
+#musicPlayer {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+}
+
+#musicPlayer>button {
+    align-self: flex-end;
+    margin: 0 .8em .8em 0;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #808080;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Estilo da "trilha" do range */
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #808080;
+    border-radius: 5px;
+}
+
+/* Estilo do botão (thumb) no Chrome/Safari */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 20px;
+    background: #000428;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: -7px;
+}
+
+#musicControls {
+    display: flex;
+    flex-direction: column;
+}
+
+#controlButtons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1em 0;
+}

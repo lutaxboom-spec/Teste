@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/pomodoro.css">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+
+    <title>Pomodoro Tela</title>
+</head>
+
+<body>
+    <main>
+        <aside id="history">
+            <a href="../telas/relatorios.html">
+                <img src="../assets/historico.png" alt="">
+            </a>
+        </aside>
+        <section id="pomoInfo">
+            <input type="text" placeholder="'Estudos'" id="pomoName" maxlength="30">
+            <div>
+                <img src="../assets/pomodoro/pomosDone.png" alt="">
+                <span>4</span>
+            </div>
+        </section>
+        <section>
+            <section id="pomoTimer">
+                <!-- <button id="pomoTimerBtn">
+                        <img src="../assets/pomodoro/startBtn.png" alt="Iniciar pomodoro">
+                    </button> -->
+                <div class="container">
+                    <label>
+                        <input type="checkbox" class="play-btn" onclick="pausar()">
+                        <div class="play-icon"></div>
+                        <div class="pause-icon"></div>
+                    </label>
+                </div>
+                <div id="pauseControl">
+                    <button id="returnBtn">
+                        <img src="../assets/pomodoro/return.png">
+                    </button>
+                    <p>pomodoro</p>
+                    <button id="proceedBtn">
+                        <img src="../assets/pomodoro/proceedBtn.png" alt="">
+                    </button>
+                </div>
+            </section>
+        </section>
+    </main>
+    <button id="listOpenBtn">
+        <img src="../assets/music/listOpen.png" alt="">
+    </button>
+    <footer>
+        <nav>
+            <a href="tasks.html">
+                <img src="../assets/pomodoro/tasks.png" alt="">
+            </a>
+            <a href="pomodoro.html" class="active" target="_self">
+                <img src="../assets/pomodoro/pomodoro.png" alt="">
+            </a>
+            <a href="music.html">
+                <img src="../assets/pomodoro/music.png" alt="">
+            </a>
+        </nav>
+    </footer>
+    <script>
+        // Seleciona os botões e o elemento <p>
+        const returnButton = document.querySelector('#pomoTimer button#returnBtn');
+        const proceedButton = document.querySelector('#pomoTimer button#proceedBtn');
+        const statusText = document.querySelector('#pomoTimer p');
+        let clickCount = 0;
+
+
+        // Função para mudar o texto baseado no contador
+        function changeMode() {
+            clickCount++;
+            if (clickCount === 1) {
+                statusText.textContent = 'pausa curta';
+            } else if (clickCount === 2) {
+                statusText.textContent = 'pausa longa';
+            } else if (clickCount === 3) {
+                statusText.textContent = 'pomodoro';
+                clickCount = 0; // Reinicia o contador
+            }
+        }
+
+        // Função para pausar o pomodoro
+        function pausar() {
+            const playBtn = document.querySelector('.play-btn');
+            if (playBtn.checked) {
+                console.log('Pomodoro despausado');
+            } else {
+                console.log('Pomodoro pausado');
+            }
+        }
+
+        // Adiciona eventos de clique aos botões
+        returnButton.addEventListener('click', changeMode);
+        proceedButton.addEventListener('click', changeMode);
+    </script>
+</body>
+
+</html>
