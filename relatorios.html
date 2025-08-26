@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../style/style.css"> -->
+    <link rel="stylesheet" href="../style/relatorios.css">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+
+    <title>Relatórios</title>
+</head>
+
+<body>
+    <main>
+        <div class="screen relatorio">
+            <h2>Relatórios</h2>
+            <div class="relatorio-item">
+                <strong>Tarefas concluídas:</strong>
+                <span id="tarefas-concluidas">0</span>
+            </div>
+            <div class="relatorio-item">
+                <strong>Últimas tarefas feitas:</strong>
+                <ul id="lista-tarefas-finalizadas"></ul>
+            </div>
+        </div>
+    </main>
+    <script>
+        function carregarRelatorio() {
+            const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+
+            const concluidas = tarefas.filter(t => t.status === 'concluida');
+            const pomodoros = Number(localStorage.getItem('pomodorosFinalizados')) || 0;
+            const tempo = pomodoros * 25; // supondo 25min por pomodoro
+
+            document.getElementById('tarefas-concluidas').textContent = concluidas.length;
+            document.getElementById('pomodoros-finalizados').textContent = pomodoros;
+            document.getElementById('tempo-total').textContent = `${Math.floor(tempo / 60)}h ${tempo % 60}min`;
+
+            const ul = document.getElementById('lista-tarefas-finalizadas');
+            ul.innerHTML = '';
+            concluidas.slice(-5).forEach(tarefa => {
+                const li = document.createElement('li');
+                li.textContent = tarefa.titulo;
+                ul.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>

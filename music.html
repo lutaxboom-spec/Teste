@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="style/music.css">
+        <title>Músicas</title>
+    </head>
+    <body>
+        <main>
+            <aside id="history">
+                <a href="../telas/relatorios.html">
+                    <img src="../assets/historico.png" alt="">
+                </a>
+            </aside>
+            <section id="musicBanner">
+                <figure>
+                    <img src="../assets/music/capa.png" alt="">
+                </figure>
+            </section>
+            <section id="musicPlayer">
+                <button>
+                    <img src="../assets/music/musicAddBtn.png" alt="">
+                </button>
+                <section id="musicControls">
+                    <input
+                        type="range"
+                        class="seekbar"
+                        min="0"
+                        value="0"
+                        step="1"
+                    >
+                    <div id="controlButtons">
+                        <button id="randomBtn">
+                            <img src="../assets/music/randomBtn.png" alt="">
+                        </button>
+                        <button id="returnBtn">
+                            <img src="../assets/music/returnBtn.png" alt="">
+                        </button>
+                        <button id="pauseBtn">
+                            <img src="../assets/music/pauseBtn.png" alt="">
+                        </button>
+                        <button id="forwardBtn">
+                            <img src="../assets/music/forwardBtn.png" alt="">
+                        </button>
+                        <button id="repeatBtn">
+                            <img src="../assets/music/repeatBtn.png" alt="">
+                        </button>
+                    </div>
+                </section>
+            </section>
+        </main>
+        <button id="listOpenBtn">
+            <img src="../assets/music/listOpen.png" alt="">
+        </button>
+        <footer>
+            <nav>
+                <a href="tasks.html">
+                    <img src="../assets/pomodoro/tasks.png" alt="">
+                </a>
+                <a href="pomodoro.html">
+                    <img src="../assets/pomodoro/pomodoro.png" alt="">
+                </a>
+                <a href="music.html">
+                    <img
+                        src="../assets/pomodoro/music.png"
+                        alt=""
+                        class="active"
+                        target="_self"
+                    >
+                </a>
+            </nav>
+        </footer>
+    </body>
+</html>

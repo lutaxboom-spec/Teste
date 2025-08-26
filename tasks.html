@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/tasks.css">
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon">
+    <title>Pomodoro Tela</title>
+</head>
+
+<body>
+    <main>
+        <aside id="history">
+            <a href="../telas/relatorios.html">
+                <img src="../assets/historico.png" alt="">
+            </a>
+        </aside>
+       
+        <h1>Tarefas</h1>
+
+        <!-- Lista de tarefas -->
+        <section class="taskList" id="taskListas">
+            <article class="tarefa">
+                <div class="checkbox">
+                    <input type="checkbox">
+                    <span class="custom-checkbox"></span>
+                </div>
+                <div class="taskInfo">
+                    <input type="text" placeholder="Ler Dom Casmurro" class="taskTitle" maxlength="40">
+
+                    <!-- Upload de imagem -->
+                    <section class="upload-container">
+                        <label class="custom-file-label" style="cursor:pointer;">
+                            <img src="../assets/tasks/addImage.png" alt="Botão Upload" />
+                            <input type="file" class="file-input" accept="image/png, image/gif, image/jpeg"
+                                style="display:none" />
+                        </label>
+                    </section>
+
+                    <!-- Descrição e subtarefas -->
+                    <section class="taskDesc">
+                        <textarea placeholder="Uma página" rows="2" class="adjustTextArea"></textarea>
+
+                        <div class="subtarefas-container">
+                            <button class="addSubTask">
+                                <img src="../assets/tasks/BtnAddSubtask.png" alt="">
+                                <span>Adicionar Subtarefa..</span>
+                            </button>
+                        </div>
+
+                        <div class="taskImages"></div>
+                    </section>
+                </div>
+            </article>
+        </section>
+
+        <!-- Botão para adicionar tarefa -->
+        <button id="addTask">
+            <img src="../assets/tasks/addTask.png" alt="">
+        </button>
+    </main>
+
+    <!-- Botão de abrir lista -->
+    <button id="listOpenBtn">
+        <img src="../assets/music/listOpen.png" alt="">
+    </button>
+
+    <!-- Navegação do rodapé -->
+    <footer>
+        <nav>
+            <a href="tasks.html" class="active">
+                <img src="../assets/pomodoro/tasks.png" alt="">
+            </a>
+            <a href="pomodoro.html">
+                <img src="../assets/pomodoro/pomodoro.png" alt="">
+            </a>
+            <a href="music.html">
+                <img src="../assets/pomodoro/music.png" alt="">
+            </a>
+        </nav>
+    </footer>
+
+    <script src="../js/submit.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+    <script>
+        const btnAdicionar = document.getElementById('addTask');
+
+        // Cria uma nova tarefa quando o botão é clicado
+        btnAdicionar.addEventListener('click', () => {
+            const container = document.getElementById('taskListas');
+
+            container.insertAdjacentHTML("beforeend", `
+                <article class="tarefa" data-id="1">
+                    <div class="checkbox">
+                        <input type="checkbox">
+                        <span class="custom-checkbox"></span>
+                    </div>
+                    <div class="taskInfo">
+                        <input type="text" placeholder="Ler Dom Casmurro" class="taskTitle" maxlength="40">
+                        <section class="upload-container">
+                            <label class="custom-file-label" style="cursor:pointer;">
+                                <img src="../assets/tasks/addImage.png" alt="Botão Upload" />
+                                <input type="file" class="file-input" accept="image/png, image/gif, image/jpeg" style="display:none" />
+                            </label>
+                        </section>
+                        <section class="taskDesc">
+                            <textarea placeholder="Uma página" rows="2" class="adjustTextArea"></textarea>
+                            <div class="subtarefas-container">
+                                <button class="addSubTask">
+                                    <img src="../assets/tasks/BtnAddSubtask.png" alt="">
+                                    <span>Adicionar Subtarefa..</span>
+                                </button>
+                            </div>
+                            <div class="taskImages"></div>
+                        </section>
+                    </div>
+                </article>
+            `);
+
+            const novaTarefa = container.lastElementChild;
+
+            // Salva tarefa vazia no banco e inicializa listeners
+            fetch('http://localhost:3000/api/salvar-tarefa', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ titulo: '', descricao: '', imagens: [] }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.id) {
+                        novaTarefa.dataset.id = data.id;
+                        inicializarListenerSalvar(novaTarefa);
+                    }
+                })
+                .catch(console.error);
+
+            novaTarefa.querySelectorAll('.adjustTextArea').forEach(aplicarAutoAjuste);
+            inicializarSortables();
+        });
+
+        // Permite arrastar subtarefas
+        function inicializarSortables() {
+            document.querySelectorAll('.subtarefas-container').forEach(container => {
+                new Sortable(container, {
+                    animation: 150,
+                    ghostClass: 'subtarefa-ghost',
+                    draggable: '.subtarefa'
+                });
+            });
+        }
+
+        // Adiciona nova subtarefa ao clicar no botão
+        document.addEventListener('click', function (e) {
+            const botao = e.target.closest('.addSubTask');
+            if (botao) {
+                const novoElemento = `
+                    <div class="subtarefa animada">
+                        <div class="left">
+                            <div class="circle"></div>
+                            <textarea rows="2" class="adjustTextArea" name="descTask"></textarea>
+                        </div>
+                        <div class="drag-icon">
+                            <img src="../assets/tasks/grabIcon.png" alt="">
+                        </div>
+                    </div>
+                `;
+                botao.insertAdjacentHTML("beforebegin", novoElemento);
+
+                const novaSubtarefa = botao.previousElementSibling;
+                if (novaSubtarefa) {
+                    const novoTextarea = novaSubtarefa.querySelector('.adjustTextArea');
+                    aplicarAutoAjuste(novoTextarea);
+
+                    // Salva tarefa ao editar subtarefa
+                    novoTextarea.addEventListener('input', () => {
+                        const tarefa = novoTextarea.closest('.tarefa');
+                        if (tarefa) salvarTarefa(tarefa);
+                    });
+                }
+            }
+        });
+
+        // Permite upload de imagens nas tarefas
+        document.getElementById('taskListas').addEventListener('change', function (e) {
+            const input = e.target;
+            if (!input.classList.contains('file-input')) return;
+
+            const file = input.files[0];
+            if (!file) return;
+
+            const tarefa = input.closest('.tarefa');
+            if (!tarefa) return;
+
+            const taskDesc = tarefa.querySelector('.taskDesc');
+            const imagensAtuais = taskDesc.querySelectorAll('.imagem-tarefa');
+
+            if (imagensAtuais.length >= 4) {
+                mostrarPopup('Você só pode adicionar até 4 imagens por tarefa.');
+                input.value = '';
+                return;
+            }
+
+            const imgURL = URL.createObjectURL(file);
+            const img = document.createElement('img');
+            img.src = imgURL;
+            img.alt = 'Imagem da tarefa';
+            img.classList.add('imagem-tarefa');
+
+            tarefa.querySelector('.taskImages').appendChild(img);
+            input.value = '';
+        });
+
+        // Ajusta a altura dos textareas automaticamente
+        function autoAjustar(textarea) {
+            textarea.style.height = textarea.scrollHeight + "px";
+        }
+
+        function aplicarAutoAjuste(textarea) {
+            autoAjustar(textarea);
+            textarea.addEventListener("input", () => autoAjustar(textarea));
+        }
+
+        document.querySelectorAll('.adjustTextArea').forEach(aplicarAutoAjuste);
+
+        // Mostra um popup simples
+        function mostrarPopup(mensagem) {
+            const popup = document.createElement('div');
+            popup.classList.add('popup-alert');
+            popup.textContent = mensagem;
+            document.body.appendChild(popup);
+            setTimeout(() => popup.remove(), 3000);
+        }
+
+        // Permite destacar uma tarefa ao clicar
+        document.querySelectorAll('.tarefa').forEach(tarefa => {
+            tarefa.addEventListener('click', () => {
+                document.querySelectorAll('.tarefa').forEach(t => t.classList.remove('active'));
+                tarefa.classList.add('active');
+            });
+        });
+
+        // Inicializa salvamento automático nas tarefas existentes
+        document.querySelectorAll('.tarefa').forEach(tarefa => {
+            inicializarListenerSalvar(tarefa);
+        });
+
+
+        // Escuta as mudanças nos checkboxes das tarefas
+        document.getElementById('taskListas').addEventListener('change', e => {
+            const input = e.target;
+            if (input.type === 'checkbox') {
+                const tarefa = input.closest('.tarefa');
+                if (!tarefa) return;
+
+                const id = tarefa.dataset.id;
+                if (!id) {
+                    alert('Essa tarefa ainda não foi salva no banco.');
+                    // desmarca o checkbox porque não pode concluir
+                    input.checked = false;
+                    return;
+                }
+
+                if (input.checked) {
+                    fetch('http://localhost:3000/api/concluir-tarefa', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id }),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'concluida') {
+                                // Adiciona a animação fade out
+                                tarefa.classList.add('fade-out');
+
+                                // Espera a animação acabar antes de remover
+                                tarefa.addEventListener('animationend', () => {
+                                    tarefa.remove();
+                                    mostrarPopup('Tarefa concluída!');
+                                }, { once: true });
+
+                            } else if (data.erro) {
+                                mostrarPopup('Erro: ' + data.erro);
+                                input.checked = false; // desfaz o checkbox
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            mostrarPopup('Erro ao concluir tarefa');
+                            input.checked = false; // desfaz o checkbox
+                        });
+                }
+                // Se o checkbox for desmarcado, desfaz a conclusão
+                else {
+                    fetch('http://localhost:3000/api/desfazer-conclusao', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id }),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.status === 'pendente') {
+                                tarefa.classList.remove('fade-out');
+                                mostrarPopup('Tarefa marcada como pendente!');
+                            } else if (data.erro) {
+                                mostrarPopup('Erro: ' + data.erro);
+                                input.checked = true; // desfaz o checkbox
+                            }   
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            mostrarPopup('Erro ao desfazer conclusão');
+                            input.checked = true; // desfaz o checkbox
+                        });
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
